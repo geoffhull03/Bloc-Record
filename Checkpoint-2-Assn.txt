@@ -1,0 +1,34 @@
+1. What's a RubyGem and why would you use one?
+    A RubyGem is a library that can be distributed in a package (gem). We use them because gems contain specific
+    functionality that can be added to an application very quickly and efficiently. There are RubyGems for many
+    automated tasks that can help carry out "mundane" tasks in a application.
+
+2. What's the difference between lazy and eager loading?
+    Lazy loading means only running a method or doing a calculation until the program is asked to or when an element is accessed.
+    Eager loading would involve loading or running every calculation or every method when it's called. For example, if a page had a
+    number of images that could be rolled over, eager loading would involve loading every image before the page is rendered. Lazy loading
+    would involve loading the displayed images if and when they are required.
+
+3. What's the difference between the CREATE TABLE and INSERT INTO SQL statements?
+    A CREATE TABLE statement does exactly what it says...it generates a brand new table given the parameters passed through the
+    statement. An INSERT INTO statement is used to edit/add rows or values into a table, again, given the parameters of the statement.
+
+4. What's the difference between extend and include? When would you use one or the other?
+    Include: mixes in specified module methods as instance methods in the target class
+    Extend: mixes in specified module methods as class methods in the target class
+
+5. In persistence.rb, why do the save methods need to be instance (vs. class) methods?
+    Both of these methods need to be called on instances of the objects in question, not the class itself.
+    Class methods would be inappropriate in this case, because they operate on the entire scope of the class
+    and not individual instances of it. Because we need to save the instances of these objects to the database,
+    we need to use instance methods, which will be carried over to the base class by 'including' the Persistence
+    module.
+
+6. Given the Jar-Jar Binks example earlier, what is the final SQL query in persistence.rb's save! method?
+    UPDATE characters SET character_name = "Jar-Jar Binks",star_rating = 1 WHERE id = 1;
+
+7. AddressBook's entries instance variable no longer returns anything. We'll fix this in a later checkpoint.
+What changes will we need to make?
+    In order for entries to return something, it must exist. We removed the initializer from address_book.rb that
+    set entries as an array, so presumably we will replace this with a reference to the database so that any
+    entries will persist after the program is closed.
