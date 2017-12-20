@@ -7,13 +7,10 @@ end
 
 #Add a select method which takes an attribute and value and searches for all records that match:
 def find_by(attribute, value)
-  def find_by(attribute, value)
   results = connection.execute <<-SQL
     SELECT #{attribute} FROM #{table}
     WHERE value = #{value}
 
   SQL
   results
-  end
-
 end
