@@ -20,12 +20,20 @@ module Persistence
     fields = self.class.attributes.map { |col| "#{col}=#{BlocRecord::Utility.sql_strings(self.instance_variable_get("@#{col}"))}" }.join(",")
 
     self.class.connection.execute <<-SQL
-      UPDATE #{self.class.table}
-      SET #{fields}
-      WHERE id = #{self.id};
+    UPDATE #{self.class.table}
+    SET #{fields}
+    WHERE id = #{self.id};
     SQL
 
     true
+  end
+
+  def method_missing(method_name, *args, &block)
+    if method_name.to_s =~ /update_(.*)/
+      update_attribute($1, *args[0])
+    else
+      super
+    end
   end
 
   module ClassMethods
@@ -35,8 +43,8 @@ module Persistence
       vals = attributes.map { |key| BlocRecord::Utility.sql_strings(attrs[key]) }
 
       connection.execute <<-SQL
-        INSERT INTO #{table} (#{attributes.join ","})
-        VALUES (#{vals.join ","});
+      INSERT INTO #{table} (#{attributes.join ","})
+      VALUES (#{vals.join ","});
       SQL
 
       data = Hash[attributes.zip attrs.values]

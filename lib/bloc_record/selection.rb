@@ -82,9 +82,23 @@ require 'sqlite3'
 
      rows_to_array(rows)
    end
- 
+
+  def method_missing(method, *args)
+    if method.match(/find_by_/)
+      attribute = method.to_s.split('find_by_')[1]
+      if columns.include?(attribute)
+        find_by(attribute, *args)
+      else
+        puts "#{attribute} does not exist in the database -- please try again."
+      end
+    else
+      super
+    end
+  end
+
 
    private
+
    def init_object_from_row(row)
      if row
        data = Hash[columns.zip(row)]
