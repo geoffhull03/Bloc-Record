@@ -115,13 +115,22 @@ module Persistence
            DELETE FROM #{table}
            WHERE #{conditions};
          SQL
-       else
-         connection.execute <<-SQL
-           DELETE FROM #{table}
-         SQL
+       elsif conditions.class == String && !conditions.empty?
+        if conditions.length > 1
+          conditiond.join(",")
+        end
+        connection.execute <<-SQL
+          DELETE FROM #{table}
+          WHERE #{conditions}
+        SQL
+      elsif conditions.class == Array && !conditions.empty?
+      else
+        connection.execute <<-SQL
+          DELETE FROM #{table}
+        SQL
        end
 
-       true
+      true
     end
   end
 end
