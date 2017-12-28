@@ -29,8 +29,11 @@ module Persistence
   end
 
   def method_missing(method_name, *args, &block)
-    if method_name.to_s =~ /update_(.*)/
-      update_attribute($1, *args[0])
+    puts self.id
+    m = method.to_s
+    arr = m.split("_")
+    if m.start_with?("update")
+      self.class.update(self.id, {arr[-1] => args[0]})
     else
       super
     end
