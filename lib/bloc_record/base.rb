@@ -4,6 +4,8 @@ require 'bloc_record/persistence'
 require 'bloc_record/selection'
 require 'bloc_record/connection'
 require 'bloc_record/collection'
+require 'bloc_record/associations'
+
 
 module BlocRecord
   class Base
@@ -11,6 +13,7 @@ module BlocRecord
     extend Selection
     extend Schema
     extend Connection
+    extend Associations
   end
 
   def initialize(options={})
